@@ -1,0 +1,41 @@
+
+The package includes the following files:
+
+ 1. Source code files - main.py, Instruments.py, Calculator.py, and Util.py
+ 2. SQL stored procedure and schema - SQLQuery.sql
+ 3. Treasury Yield Input Files - YieldData.db, YieldData.csv
+ 4. Business Requirement Document (BRD)
+ 5. Read Me file
+
+
+How to run:
+Put all source code files and YieldData.db in the same directory, then execute main.py (python main.py). It should print out the VaR number under two different approaches, with two confidence level respectively (wait for a few seconds). It will also generate a few csv files under the same folders as the output for each assignment request.
+
+
+Input:
+There are two sets of inputs for this project.
+1. Treasury Yield Data: The treasury constant-maturity yield data represent the yield of treasuries with different tenors. The data (treasury yield curve) is retrieved for the year 2022 - 2024, with the tenor points 3M, 1Y, 2Y, 3Y, 5Y, 10Y, 20Y, 30Y.  Data Source: FRED database (https://fred.stlouisfed.org/). The data is saved in both csv and db format.
+2. Bond Portfolios: 4 US Treasury bond instruments are hard coded in main.py file with different coupon, payment frequency, issuance date and maturity date.
+
+
+Output:
+1. VaR numbers are printed out in the console
+2. Portfolio with instrument weights, DV01 over the past two years, and yield change at portfolio level over the past two years are saved as three individual csv files
+(Note: the point 2 - "Calculate the daily yield changes (delta yield) for this portfolio" is a little confusing. The approach I take is to calculate each bond instrument yield-to-maturity daily change, and take the weighted average as the portfolio yield change. If the yield change on instrument level is desired, it is also achievable by not aggregating bonds' yield) 
+
+
+Dependencies:
+The project is built from scratch. Only basic pandas and numpy libraries are utilized. The sqlite3 library is used to save data from csv to db format and load data from database in Python.
+
+
+Flexibility:
+1. User can randomly generate weights for the bond portfolio, or manually input weights (optional assignment 5). This can be done through switching between two functions in main.py 
+2. User can provide as many Treasury Bond instruments as he wants. The treasury bonds can be on-the-run or off-the-run. User can code the bonds with attributes in main.py (right now, it is hard-coded for 4 bonds)
+
+Assumption:
+Refer to BRD document.
+
+Data Validation:
+1. bond validator to check all bond attributes are input correctly. This is implemented in validate_bond in Instrument.py
+2. Before calculation, check whether the portfolio is empty. 
+3. Check all required tenor points are loaded. (e.g., if a 30-year bond exist in the portoflio, make sure treasury yield 'TRY30' is loaded)
